@@ -39,7 +39,7 @@ function GenerateNotes() {
                       <div class="settings">
                         <i class="uil uil-ellipsis-h" onclick="showParent(this)"></i>
                         <ul class="menu">
-                          <li onclick="updateNote(${note.id})">
+                          <li onclick="updateNote(${note.id},'${note.title}','${note.dec}')">
                             <i class="uil uil-pen"></i>Edit
                           </li>
                           <li onclick="RemoveNote(event,${note.id})">
@@ -55,12 +55,20 @@ function GenerateNotes() {
     }
 }
 
-function openPopUp() {
+function openPopUp(title, desc) {
+    if (isUpdate) {
+        popUpInput.value = title
+        popUpDesc.value = desc
+        popUpTitle.innerHTML = "Update Note"
+        popUpbutton.innerHTML = "Update Note"
+        isUpdate = false
+    } else {
+        popUpInput.value = ""
+        popUpDesc.value = ""
+        popUpTitle.innerHTML = "Add Note"
+        popUpbutton.innerHTML = "Add Note"
+    }
     popUp.classList.add("show")
-    !isUpdate ? popUpInput.value = "" : null
-    !isUpdate ? popUpDesc.value = "" : null
-    popUpTitle.innerHTML = isUpdate ? "Update Note" : "Add Note"
-    popUpbutton.innerHTML = isUpdate ? "Update Note" : "Add Note"
 }
 function addNewNote() {
     if (popUpInput.value.trim() && popUpDesc.value.trim()) {
@@ -80,10 +88,10 @@ function addNewNote() {
     }
 }
 
-function updateNote(id) {
+function updateNote(id, title, desc) {
     isUpdate = true
     updatedNoteId = id
-    openPopUp()
+    openPopUp(title, desc)
 }
 
 function closePopUp() {
@@ -132,5 +140,12 @@ popUpbutton.addEventListener("click", (e) => {
     }
 })
 window.addEventListener("load", GenerateNotes)
+$.addEventListener("click", (e) => {
+    if (![...e.target.classList].includes("uil")) {
+        if ($.querySelectorAll(".settings")) {
+            $.querySelectorAll(".settings").forEach(set => set.classList.remove("show"))
+        }
+    }
+})
 
 
