@@ -61,7 +61,7 @@ function openPopUp(title, desc) {
         popUpDesc.value = desc
         popUpTitle.innerHTML = "Update Note"
         popUpbutton.innerHTML = "Update Note"
-        isUpdate = false
+
     } else {
         popUpInput.value = ""
         popUpDesc.value = ""
@@ -135,6 +135,7 @@ popUpbutton.addEventListener("click", (e) => {
     e.preventDefault()
     if (isUpdate) {
         updateThisNote(updatedNoteId)
+        isUpdate = false
     } else {
         addNewNote()
     }
